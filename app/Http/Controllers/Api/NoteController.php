@@ -7,15 +7,16 @@ use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
     /**
      * GET /api/notes — список нотаток (200 OK).
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(Note::latest()->get());
+        return response()->json($request->user()->notes()->latest()->get());
     }
 
     /**
@@ -23,7 +24,7 @@ class NoteController extends Controller
      */
     public function store(StoreNoteRequest $request): JsonResponse
     {
-        $note = Note::create($request->validated());
+        $note = $request->user()->notes()->create($request->validated());
 
         return response()->json($note, 201);
     }

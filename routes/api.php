@@ -8,4 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('notes', NoteController::class)->names('api.notes');
+Route::apiResource('notes', NoteController::class)
+    ->names('api.notes')
+    ->middleware('auth:sanctum');

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Note extends Model
 {
@@ -19,6 +20,14 @@ class Note extends Model
         return [
             'due_date' => 'date',
         ];
+    }
+
+    /**
+     * Власник нотатки (notes.user_id -> users.id).
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function statusLabel(): string

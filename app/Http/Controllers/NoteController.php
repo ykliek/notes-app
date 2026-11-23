@@ -12,7 +12,7 @@ class NoteController extends Controller
     public function index()
     {
         return view('notes.index', [
-            'notes' => Note::where('user_id', Auth::id())->latest()->get(),
+            'notes' => Auth::user()->notes()->latest()->get(),
         ]);
     }
 
@@ -23,10 +23,7 @@ class NoteController extends Controller
 
     public function store(StoreNoteRequest $request)
     {
-        Note::create([
-            ...$request->validated(),
-            'user_id' => Auth::id(),
-        ]);
+        $request->user()->notes()->create($request->validated());
 
         return redirect('/notes')->with('status', 'Нотатку створено.');
     }
