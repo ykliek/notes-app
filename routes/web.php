@@ -19,3 +19,5 @@ Route::get('/about', function () {
 });
 
 Route::view('/contact', 'contact');
+
+Route::get('/ui-demo', fn () => view('ui-demo', ['theme' => request('theme', 'light')]));
