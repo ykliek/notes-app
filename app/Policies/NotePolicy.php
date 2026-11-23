@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Note;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class NotePolicy
 {
@@ -17,11 +18,13 @@ class NotePolicy
     }
 
     /**
-     * Переглядати нотатку може лише її власник.
+     * Переглядати нотатку може лише її власник; чужа нотатка виглядає як неіснуюча (404).
      */
-    public function view(User $user, Note $note): bool
+    public function view(User $user, Note $note): Response
     {
-        return $note->user->is($user);
+        return $note->user->is($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -35,15 +38,17 @@ class NotePolicy
     /**
      * Редагувати нотатку може лише її власник.
      */
-    public function update(User $user, Note $note): bool
+    public function update(User $user, Note $note): Response
     {
-        return $note->user->is($user);
+        return $note->user->is($user)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
      * Видалення підпорядковане тому ж правилу, що й редагування.
      */
-    public function delete(User $user, Note $note): bool
+    public function delete(User $user, Note $note): Response
     {
         return $this->update($user, $note);
     }
