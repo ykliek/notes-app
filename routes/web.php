@@ -22,6 +22,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/notes/{note}', [NoteController::class, 'destroy']);
 
     Route::delete('/logout', [SessionsController::class, 'destroy']);
+
+    Route::get('/admin', function () {
+        return view('admin.index', [
+            'users' => \App\Models\User::withCount('notes')->orderBy('id')->get(),
+            'notesCount' => \App\Models\Note::count(),
+        ]);
+    })->can('view-admin');
 });
 
 Route::get('/about', function () {
