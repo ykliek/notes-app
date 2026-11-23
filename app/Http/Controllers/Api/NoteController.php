@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class NoteController extends Controller
 {
@@ -34,6 +35,8 @@ class NoteController extends Controller
      */
     public function show(Note $note): JsonResponse
     {
+        Gate::authorize('view', $note);
+
         return response()->json($note);
     }
 
@@ -42,6 +45,8 @@ class NoteController extends Controller
      */
     public function update(UpdateNoteRequest $request, Note $note): JsonResponse
     {
+        Gate::authorize('update', $note);
+
         $note->update($request->validated());
 
         return response()->json($note->fresh(), 200);
@@ -52,6 +57,8 @@ class NoteController extends Controller
      */
     public function destroy(Note $note): JsonResponse
     {
+        Gate::authorize('delete', $note);
+
         $note->delete();
 
         return response()->json(null, 204);

@@ -15,14 +15,15 @@ Route::post('/login', [SessionsController::class, 'store'])->middleware('guest')
 
 // Сторінки лише для автентифікованих користувачів
 Route::middleware('auth')->group(function () {
-    Route::get('/notes', [NoteController::class, 'index'])->can('viewAny', Note::class);
+    Route::get('/notes', [NoteController::class, 'index']);
+    // Авторизація виконується в NoteController через Gate::authorize()
     // /notes/create обов'язково ПЕРЕД /notes/{note}, інакше "create" сприймається як {note}
-    Route::get('/notes/create', [NoteController::class, 'create'])->can('create', Note::class);
-    Route::post('/notes', [NoteController::class, 'store'])->can('create', Note::class);
-    Route::get('/notes/{note}', [NoteController::class, 'show'])->can('view', 'note');
-    Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->can('update', 'note');
-    Route::patch('/notes/{note}', [NoteController::class, 'update'])->can('update', 'note');
-    Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->can('delete', 'note');
+    Route::get('/notes/create', [NoteController::class, 'create']);
+    Route::post('/notes', [NoteController::class, 'store']);
+    Route::get('/notes/{note}', [NoteController::class, 'show']);
+    Route::get('/notes/{note}/edit', [NoteController::class, 'edit']);
+    Route::patch('/notes/{note}', [NoteController::class, 'update']);
+    Route::delete('/notes/{note}', [NoteController::class, 'destroy']);
 
     Route::delete('/logout', [SessionsController::class, 'destroy']);
 

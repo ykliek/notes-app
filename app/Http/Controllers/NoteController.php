@@ -6,11 +6,14 @@ use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class NoteController extends Controller
 {
     public function index()
     {
+        Gate::authorize('viewAny', Note::class);
+
         return view('notes.index', [
             'notes' => Auth::user()->notes()->latest()->get(),
         ]);
@@ -18,11 +21,15 @@ class NoteController extends Controller
 
     public function create()
     {
+        Gate::authorize('create', Note::class);
+
         return view('notes.create');
     }
 
     public function store(StoreNoteRequest $request)
     {
+        Gate::authorize('create', Note::class);
+
         $request->user()->notes()->create($request->validated());
 
         return redirect('/notes')->with('status', 'Нотатку створено.');
@@ -30,16 +37,22 @@ class NoteController extends Controller
 
     public function show(Note $note)
     {
+        Gate::authorize('view', $note);
+
         return view('notes.show', ['note' => $note]);
     }
 
     public function edit(Note $note)
     {
+        Gate::authorize('update', $note);
+
         return view('notes.edit', ['note' => $note]);
     }
 
     public function update(UpdateNoteRequest $request, Note $note)
     {
+        Gate::authorize('update', $note);
+
         $note->update($request->validated());
 
         return redirect("/notes/{$note->id}")->with('status', 'Нотатку оновлено.');
@@ -47,6 +60,8 @@ class NoteController extends Controller
 
     public function destroy(Note $note)
     {
+        Gate::authorize('delete', $note);
+
         $note->delete();
 
         return redirect('/notes')->with('status', 'Нотатку видалено.');
