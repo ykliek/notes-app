@@ -11,6 +11,7 @@
         nav a { color: #555; text-decoration: none; }
         nav a.active { color: #000; font-weight: 700; }
         .card { background: #fff; border: 1px solid #e3e3e3; border-radius: 8px; padding: 12px 16px; margin: 8px 0; }
+        input, select { box-sizing: border-box; }
         textarea { width: 100%; min-height: 80px; padding: 8px; box-sizing: border-box; }
         button { padding: 8px 16px; margin-top: 8px; cursor: pointer; }
         footer { margin-top: 40px; padding: 16px 0; border-top: 1px solid #ddd; color: #888; font-size: 14px; }

@@ -20,10 +20,14 @@ class NoteController extends Controller
 
     public function store()
     {
-        Note::create([
-            'title' => request('title'),
-            'description' => request('description'),
+        $validated = request()->validate([
+            'title' => ['required', 'string', 'min:3', 'max:255'],
+            'description' => ['required', 'string', 'min:5'],
+            'status' => ['required', 'in:pending,in_progress,done'],
+            'due_date' => ['nullable', 'date', 'after_or_equal:today'],
         ]);
+
+        Note::create($validated);
 
         return redirect('/notes');
     }
@@ -40,10 +44,14 @@ class NoteController extends Controller
 
     public function update(Note $note)
     {
-        $note->update([
-            'title' => request('title'),
-            'description' => request('description'),
+        $validated = request()->validate([
+            'title' => ['required', 'string', 'min:3', 'max:255'],
+            'description' => ['required', 'string', 'min:5'],
+            'status' => ['required', 'in:pending,in_progress,done'],
+            'due_date' => ['nullable', 'date'],
         ]);
+
+        $note->update($validated);
 
         return redirect("/notes/{$note->id}");
     }
