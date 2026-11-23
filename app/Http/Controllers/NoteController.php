@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNoteRequest;
+use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
 
 class NoteController extends Controller
@@ -18,16 +20,9 @@ class NoteController extends Controller
         return view('notes.create');
     }
 
-    public function store()
+    public function store(StoreNoteRequest $request)
     {
-        $validated = request()->validate([
-            'title' => ['required', 'string', 'min:3', 'max:255'],
-            'description' => ['required', 'string', 'min:5'],
-            'status' => ['required', 'in:pending,in_progress,done'],
-            'due_date' => ['nullable', 'date', 'after_or_equal:today'],
-        ]);
-
-        Note::create($validated);
+        Note::create($request->validated());
 
         return redirect('/notes');
     }
@@ -42,16 +37,9 @@ class NoteController extends Controller
         return view('notes.edit', ['note' => $note]);
     }
 
-    public function update(Note $note)
+    public function update(UpdateNoteRequest $request, Note $note)
     {
-        $validated = request()->validate([
-            'title' => ['required', 'string', 'min:3', 'max:255'],
-            'description' => ['required', 'string', 'min:5'],
-            'status' => ['required', 'in:pending,in_progress,done'],
-            'due_date' => ['nullable', 'date'],
-        ]);
-
-        $note->update($validated);
+        $note->update($request->validated());
 
         return redirect("/notes/{$note->id}");
     }
