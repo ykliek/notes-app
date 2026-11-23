@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
+use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller
 {
     public function index()
     {
         return view('notes.index', [
-            'notes' => Note::latest()->get(),
+            'notes' => Note::where('user_id', Auth::id())->latest()->get(),
         ]);
     }
 
@@ -22,7 +23,10 @@ class NoteController extends Controller
 
     public function store(StoreNoteRequest $request)
     {
-        Note::create($request->validated());
+        Note::create([
+            ...$request->validated(),
+            'user_id' => Auth::id(),
+        ]);
 
         return redirect('/notes')->with('status', 'Нотатку створено.');
     }
