@@ -22,10 +22,16 @@
         </div>
         <div class="navbar-end gap-2">
             @guest
-                <a href="/register" class="btn btn-sm btn-ghost">Реєстрація</a>
+                <a href="/login" class="btn btn-sm btn-ghost">Вхід</a>
+                <a href="/register" class="btn btn-sm btn-primary">Реєстрація</a>
             @endguest
             @auth
                 <span class="text-sm hidden sm:inline">{{ auth()->user()->name }}</span>
+                <form method="POST" action="/logout">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-outline">Вийти</button>
+                </form>
             @endauth
             <select class="select select-sm w-32" data-theme-switcher aria-label="Тема">
                 @foreach (['light', 'dark', 'cupcake', 'corporate', 'synthwave', 'nord'] as $theme)

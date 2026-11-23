@@ -14,7 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Гість -> сторінка входу; автентифікований користувач на /login чи /register -> нотатки
+        $middleware->redirectGuestsTo('/login');
+        $middleware->redirectUsersTo('/notes');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
