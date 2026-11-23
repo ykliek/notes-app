@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\NoteController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,9 @@ Route::get('/notes/{note}', [NoteController::class, 'show']);
 Route::get('/notes/{note}/edit', [NoteController::class, 'edit']);
 Route::patch('/notes/{note}', [NoteController::class, 'update']);
 Route::delete('/notes/{note}', [NoteController::class, 'destroy']);
+
+Route::get('/register', [RegisteredUserController::class, 'create']);
+Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::get('/about', function () {
     return view('about', [

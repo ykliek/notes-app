@@ -21,6 +21,12 @@
             </ul>
         </div>
         <div class="navbar-end gap-2">
+            @guest
+                <a href="/register" class="btn btn-sm btn-ghost">Реєстрація</a>
+            @endguest
+            @auth
+                <span class="text-sm hidden sm:inline">{{ auth()->user()->name }}</span>
+            @endauth
             <select class="select select-sm w-32" data-theme-switcher aria-label="Тема">
                 @foreach (['light', 'dark', 'cupcake', 'corporate', 'synthwave', 'nord'] as $theme)
                     <option value="{{ $theme }}">{{ ucfirst($theme) }}</option>
