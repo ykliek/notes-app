@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
+use App\Notifications\NotePublished;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -30,7 +31,9 @@ class NoteController extends Controller
     {
         Gate::authorize('create', Note::class);
 
-        $request->user()->notes()->create($request->validated());
+        $note = $request->user()->notes()->create($request->validated());
+
+        $request->user()->notify(new NotePublished($note));
 
         return redirect('/notes')->with('status', 'Нотатку створено.');
     }
