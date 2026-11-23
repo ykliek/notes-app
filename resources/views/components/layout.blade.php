@@ -18,7 +18,8 @@
 </head>
 <body>
     <nav>
-        <x-nav-link href="/" :active="request()->is('/')">Головна</x-nav-link>
+        <x-nav-link href="/notes" :active="request()->is('notes')">Нотатки</x-nav-link>
+        <x-nav-link href="/notes/create" :active="request()->is('notes/create')">Нова нотатка</x-nav-link>
         <x-nav-link href="/about" :active="request()->is('about')">Про застосунок</x-nav-link>
         <x-nav-link href="/contact" :active="request()->is('contact')">Контакти</x-nav-link>
     </nav>
