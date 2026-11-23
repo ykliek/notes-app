@@ -1,14 +1,29 @@
 <x-layout title="Нотатки">
-    <h1>Мої нотатки</h1>
-    <p><a href="/notes/create">+ Створити нотатку</a></p>
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold">Мої нотатки</h1>
+        <a href="/notes/create" class="btn btn-primary">+ Нова нотатка</a>
+    </div>
 
-    @forelse ($notes as $note)
-        <div class="card">
-            <a href="/notes/{{ $note->id }}"><strong>{{ $note->title }}</strong></a>
-            <small style="color:#666"> — {{ $note->statusLabel() }}@if ($note->due_date), до {{ $note->due_date->format('d.m.Y') }}@endif</small>
-            <p>{{ Str::limit($note->description, 120) }}</p>
-        </div>
-    @empty
-        <p>Нотаток поки немає.</p>
-    @endforelse
+    <div class="grid gap-4 md:grid-cols-2">
+        @forelse ($notes as $note)
+            <div class="card bg-base-100 shadow-sm hover:shadow-md transition">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <a href="/notes/{{ $note->id }}" class="link link-hover">{{ $note->title }}</a>
+                    </h2>
+                    <p class="text-base-content/70">{{ Str::limit($note->description, 120) }}</p>
+                    <div class="card-actions items-center justify-between mt-2">
+                        <x-status-badge :status="$note->status" />
+                        @if ($note->due_date)
+                            <span class="text-sm text-base-content/60">до {{ $note->due_date->format('d.m.Y') }}</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div role="alert" class="alert md:col-span-2">
+                <span>Нотаток поки немає — створіть першу.</span>
+            </div>
+        @endforelse
+    </div>
 </x-layout>

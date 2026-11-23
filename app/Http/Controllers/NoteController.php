@@ -24,7 +24,7 @@ class NoteController extends Controller
     {
         Note::create($request->validated());
 
-        return redirect('/notes');
+        return redirect('/notes')->with('status', 'Нотатку створено.');
     }
 
     public function show(Note $note)
@@ -41,13 +41,13 @@ class NoteController extends Controller
     {
         $note->update($request->validated());
 
-        return redirect("/notes/{$note->id}");
+        return redirect("/notes/{$note->id}")->with('status', 'Нотатку оновлено.');
     }
 
     public function destroy(Note $note)
     {
         $note->delete();
 
-        return redirect('/notes');
+        return redirect('/notes')->with('status', 'Нотатку видалено.');
     }
 }
