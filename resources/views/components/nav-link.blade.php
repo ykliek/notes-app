@@ -1,2 +1,2 @@
 @props(['active' => false])
-<a {{ $attributes->merge(['class' => $active ? 'active' : '']) }}>{{ $slot }}</a>
+<a {{ $attributes->merge(['class' => $active ? 'menu-active' : '']) }}>{{ $slot }}</a>
