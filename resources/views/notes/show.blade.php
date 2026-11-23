@@ -15,12 +15,20 @@
             <p class="text-xs text-base-content/50 mt-4">Створено: {{ $note->created_at->format('d.m.Y H:i') }}</p>
 
             <div class="card-actions justify-end mt-4">
-                <a href="/notes/{{ $note->id }}/edit" class="btn btn-outline">Редагувати</a>
-                <button type="button" class="btn btn-error" onclick="delete_modal.showModal()">Видалити</button>
+                @can('update', $note)
+                    <a href="/notes/{{ $note->id }}/edit" class="btn btn-outline">Редагувати</a>
+                @endcan
+                @can('delete', $note)
+                    <button type="button" class="btn btn-error" onclick="delete_modal.showModal()">Видалити</button>
+                @endcan
+                @cannot('update', $note)
+                    <span class="text-sm text-base-content/60">Ви можете редагувати лише власні нотатки.</span>
+                @endcannot
             </div>
         </div>
     </div>
 
+    @can('delete', $note)
     <dialog id="delete_modal" class="modal">
         <div class="modal-box">
             <h3 class="text-lg font-bold">Видалити нотатку?</h3>
@@ -36,4 +44,5 @@
         </div>
         <form method="dialog" class="modal-backdrop"><button>close</button></form>
     </dialog>
+    @endcan
 </x-layout>

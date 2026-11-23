@@ -1,7 +1,9 @@
 <x-layout title="Нотатки">
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-3xl font-bold">Мої нотатки</h1>
-        <a href="/notes/create" class="btn btn-primary">+ Нова нотатка</a>
+        @can('create', App\Models\Note::class)
+            <a href="/notes/create" class="btn btn-primary">+ Нова нотатка</a>
+        @endcan
     </div>
 
     <div class="grid gap-4 md:grid-cols-2">
@@ -13,10 +15,15 @@
                     </h2>
                     <p class="text-base-content/70">{{ Str::limit($note->description, 120) }}</p>
                     <div class="card-actions items-center justify-between mt-2">
-                        <x-status-badge :status="$note->status" />
-                        @if ($note->due_date)
-                            <span class="text-sm text-base-content/60">до {{ $note->due_date->format('d.m.Y') }}</span>
-                        @endif
+                        <div class="flex items-center gap-2">
+                            <x-status-badge :status="$note->status" />
+                            @if ($note->due_date)
+                                <span class="text-sm text-base-content/60">до {{ $note->due_date->format('d.m.Y') }}</span>
+                            @endif
+                        </div>
+                        @can('update', $note)
+                            <a href="/notes/{{ $note->id }}/edit" class="btn btn-ghost btn-xs">Редагувати</a>
+                        @endcan
                     </div>
                 </div>
             </div>

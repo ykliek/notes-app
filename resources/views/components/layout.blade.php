@@ -15,7 +15,12 @@
         <div class="navbar-center hidden md:flex">
             <ul class="menu menu-horizontal px-1 gap-1">
                 <li><x-nav-link href="/notes" :active="request()->is('notes')">Нотатки</x-nav-link></li>
-                <li><x-nav-link href="/notes/create" :active="request()->is('notes/create')">Нова нотатка</x-nav-link></li>
+                @can('create', App\Models\Note::class)
+                    <li><x-nav-link href="/notes/create" :active="request()->is('notes/create')">Нова нотатка</x-nav-link></li>
+                @endcan
+                @can('view-admin')
+                    <li><x-nav-link href="/admin" :active="request()->is('admin')">Адмін</x-nav-link></li>
+                @endcan
                 <li><x-nav-link href="/about" :active="request()->is('about')">Про застосунок</x-nav-link></li>
                 <li><x-nav-link href="/contact" :active="request()->is('contact')">Контакти</x-nav-link></li>
             </ul>
