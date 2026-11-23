@@ -22,7 +22,7 @@ class NotePolicy
      */
     public function view(User $user, Note $note): Response
     {
-        return $note->user->is($user)
+        return $note->user()->is($user)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -40,7 +40,7 @@ class NotePolicy
      */
     public function update(User $user, Note $note): Response
     {
-        return $note->user->is($user)
+        return $note->user()->is($user)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
