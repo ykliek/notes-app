@@ -1,0 +1,90 @@
+// =============================================================
+// reset.scss — сучасний CSS reset (компілюється Vite через sass-embedded)
+// =============================================================
+
+$font-stack: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$line-height-base: 1.5;
+
+@mixin no-margins {
+    margin: 0;
+    padding: 0;
+}
+
+// 1. Передбачувана модель розмірів для всіх елементів
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+// 2. Прибираємо стандартні відступи браузера
+html,
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd {
+    @include no-margins;
+}
+
+// 3. Списки без маркерів (там, де вони мають роль)
+ul,
+ol {
+    @include no-margins;
+    list-style: none;
+}
+
+// 4. Базова типографіка
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    font-family: $font-stack;
+    line-height: $line-height-base;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+    line-height: 1.2;
+    text-wrap: balance;
+}
+
+// 5. Медіа — блокові та адаптивні
+img,
+picture,
+svg,
+video,
+canvas {
+    display: block;
+    max-width: 100%;
+}
+
+// 6. Елементи форм успадковують шрифт
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+// 7. Посилання без підкреслення, якщо в них немає класу
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+    color: currentColor;
+}
+
+// 8. Повага до налаштувань користувача щодо анімацій
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
