@@ -7,6 +7,9 @@ use App\Models\Note;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
+// Головна сторінка (потрібна для стандартного тесту ExampleTest)
+Route::get('/', fn () => 'Notes App');
+
 // Сторінки лише для гостей
 Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest');
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
